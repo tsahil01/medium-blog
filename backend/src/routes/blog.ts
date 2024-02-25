@@ -1,6 +1,10 @@
 import { Hono } from "hono";
 
-const blog = new Hono();
+const blog = new Hono<{
+    Bindings: {
+      DATABASE_URL: string
+    }
+  }>();
 
 blog.post('/', (c)=>{
     return c.json({
