@@ -2,6 +2,7 @@ import { Hono } from "hono";
 import { decode, verify } from 'hono/jwt'
 import { PrismaClient } from '@prisma/client/edge'
 import { withAccelerate } from '@prisma/extension-accelerate'
+import { createPostInput, updatePostInput } from "@tsahil/common-zod-validation"; 
 
 const blog = new Hono<{
     Bindings: {
@@ -36,6 +37,14 @@ blog.post('/', async (c)=>{
     console.log("userId: ", c.get('userId'))
 
     const body = await c.req.json();
+
+    const { success } = createPostInput.safeParse(body);
+    if(!success){
+        c.status(411);
+        return c.json({
+            error: "incorrect inputs"
+        })
+    }
     const post = await prisma.post.create({
         data: {
             title: body.title,
@@ -49,13 +58,20 @@ blog.post('/', async (c)=>{
     })
 })
 
-blog.put('/update', async (c)=>{
+blog.put('/', async (c)=>{
     const prisma = new PrismaClient({
         datasourceUrl: c.env.DATABASE_URL,
     }).$extends(withAccelerate())
     const body = await c.req.json();
     const postId = body.postId;
-    console.log(postId);
+
+    const { success } = updatePostInput.safeParse(body);
+    if(!success){
+        c.status(411);
+        return c.json({
+            error: "incorrect inputs"
+        })
+    }
 
     const update = await prisma.post.update({
         where:{
