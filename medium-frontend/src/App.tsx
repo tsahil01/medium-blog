@@ -1,21 +1,18 @@
-import { BrowserRouter, Routes, Route } from "react-router-dom";
-import Signin from "./components/Signin";
-import Signup from "./components/Signup";
-import Blog from "./components/Blog";
-import { HeroParallaxDemo } from "./components/Hero";
+import { BrowserRouter, Route, Routes } from "react-router-dom"
+import Home from "./components/Home"
+import { FloatingNavDemo } from "./components/aceternity/NavbarFloating"
 
-export default function App() {
+function App() {
   return (
     <>
-    <BrowserRouter>
-      <Routes>
-        
-        <Route path="/signin" element={ <Signin/> }/> 
-        <Route path="/" element={ <HeroParallaxDemo/> }/> 
-        <Route path="/signup" element={ <Signup/> }/> 
-        <Route path="/blog/:id" element={ <Blog/> }/> 
-      </Routes>
-    </BrowserRouter>
+    <FloatingNavDemo/>
+     <BrowserRouter>
+     <Routes>
+      <Route path="/" element={<Home/>}/>
+     </Routes>
+     </BrowserRouter>
     </>
   )
-}w
+}
+
+export default App
