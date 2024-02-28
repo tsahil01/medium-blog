@@ -36,7 +36,7 @@ export const ContainerScroll = ({
 
   const rotate = useTransform(scrollYProgress, [0, 1], [20, 0]);
   const scale = useTransform(scrollYProgress, [0, 1], scaleDimensions());
-  const translate = useTransform(scrollYProgress, [0, 1], [0, -900]);
+  const translate = useTransform(scrollYProgress, [0, 1], [0, -1500]);
 
   return (
     <div
@@ -100,15 +100,15 @@ export const Card = ({
       }}
       className="max-w-8xl -mt-12 mx-auto h-[40rem] md:h-[80rem] w-full border-4 border-[#6C6C6C] p-4 bg-neutral-600 rounded-[30px] shadow-5xl"
     >
-      <div className="bg-black h-full w-full rounded-2xl grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 md:gap-5 gap-1 overflow-hidden p-4">
+      <div className="bg-black h-full w-full rounded-2xl grid grid-cols-2 md:grid-cols-2 lg:grid-cols-4 md:gap-4 gap-3 overflow-hidden p-4">
         {users.map((user, idx: number) => (
           <motion.div
             key={`user-${idx}`}
-            className="bg-neutral-900 rounded-md cursor-pointer relative flex flex-col gap-4 justify-center p-4 text-white"
+            className="bg-neutral-900 rounded-md cursor-pointer relative flex flex-col gap-4 col-span-1 justify-center p-4 text-white"
             style={{ translateY: translate }}
             whileHover={{
               boxShadow:
-                "0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1)",
+                "0 20px 25px -5px rgb(5 50 100 / 1), 0 8px 10px -6px rgb(150 25 150 / 10)",
             }}
           >
             <h3 className=" font-bold md:text-3xl text-xl text-white">{user.name}</h3>

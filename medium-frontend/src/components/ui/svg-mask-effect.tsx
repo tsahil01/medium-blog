@@ -53,7 +53,7 @@ export const MaskContainer = ({
           }px`,
           WebkitMaskSize: `${maskSize}px`,
         }}
-        transition={{ type: "tween", ease: "backOut", duration: 0.1 }}
+        transition={{ type: "tween", ease: "backOut", duration: 0.5 }}
       >
         <div className="absolute inset-0 bg-black h-full w-full z-0 opacity-50" />
         <div

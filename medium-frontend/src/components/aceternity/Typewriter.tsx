@@ -3,21 +3,28 @@ import { TypewriterEffectSmooth } from "../ui/typewriter-effect";
 export function TypewriterEffectSmoothDemo() {
   const words = [
     {
-      text: "Build",
+      text: "Sharing",
     },
     {
-      text: "awesome",
+      text: "my",
     },
     {
-      text: "apps",
+      text: "exciting",
     },
     {
-      text: "with",
+      text: "story",
     },
     {
-      text: "Aceternity.",
-      className: "text-blue-500 dark:text-blue-500",
+      text: "in",
     },
+    {
+      text: "Dev",
+      className: "text-blue-500 dark:text-blue-500"
+    },
+    {
+      text: "Diaries!",
+      className: "text-blue-500 dark:text-blue-500"
+    }
   ];
   return (
     <div className="flex flex-col items-center justify-center h-[40rem]  ">
