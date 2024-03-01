@@ -9,7 +9,21 @@ export declare const signinInput: z.ZodObject<{
     email: string;
     password: string;
 }>;
+export declare const signupInput: z.ZodObject<{
+    email: z.ZodString;
+    password: z.ZodString;
+    name: z.ZodOptional<z.ZodString>;
+}, "strip", z.ZodTypeAny, {
+    email: string;
+    password: string;
+    name?: string | undefined;
+}, {
+    email: string;
+    password: string;
+    name?: string | undefined;
+}>;
 export type signInParams = z.infer<typeof signinInput>;
+export type signUpParams = z.infer<typeof signupInput>;
 export declare const createPostInput: z.ZodObject<{
     title: z.ZodString;
     content: z.ZodString;
