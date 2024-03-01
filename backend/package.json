@@ -6,7 +6,7 @@
   "dependencies": {
     "@prisma/client": "^5.10.2",
     "@prisma/extension-accelerate": "^0.6.3",
-    "@tsahil/common-zod-validation": "^1.0.2",
+    "@tsahil/common-zod-validation": "^1.0.5",
     "hono": "^4.0.5",
     "prisma": "^5.10.2"
   },

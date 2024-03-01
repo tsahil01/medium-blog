@@ -2,7 +2,7 @@ import { Hono } from "hono";
 import { PrismaClient } from '@prisma/client/edge'
 import { withAccelerate } from '@prisma/extension-accelerate'
 import { sign } from 'hono/jwt'
-import { signinInput } from "@tsahil/common-zod-validation";
+import { signinInput, signupInput } from "@tsahil/common-zod-validation";
 
 
 const auth = new Hono<{
@@ -18,7 +18,7 @@ auth.post('/signup', async (c)=>{
     }).$extends(withAccelerate())
 
     const body = await c.req.json();
-    const { success } =  signinInput.safeParse(body);
+    const { success } =  signupInput.safeParse(body);
     if(!success){
         c.status(411);
         return c.json({
@@ -29,7 +29,8 @@ auth.post('/signup', async (c)=>{
         const user = await prisma.user.create({
             data: {
                 email: body.email,
-                password: body.password
+                password: body.password,
+                name: body.name
             }
         });
         if(user){
