@@ -5,7 +5,14 @@ export const signinInput = z.object({
     password: z.string()
 });
 
+export const signupInput = z.object({
+    email: z.string().email(),
+    password: z.string(),
+    name: z.string().optional()
+});
+
 export type signInParams = z.infer<typeof signinInput>;
+export type signUpParams = z.infer<typeof signupInput>;
 
 export const createPostInput  = z.object({
     title: z.string().min(3, "Title should be greater than 3 char"),
