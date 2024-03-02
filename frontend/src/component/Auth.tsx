@@ -1,8 +1,29 @@
 import { ChangeEvent, useState } from "react";
 import { Link } from "react-router-dom";
 import { signUpParams } from "@tsahil/common-zod-validation";
+import { BACKEND_URL } from "../config";
 
-export function Auth({authType} : {type: "signup" | "signin"}){
+export function Auth({ authType }: { authType: "signup" | "signin" }) {
+
+    async function dataFetch() {
+        if(authType === "signup"){
+            try{
+                const res = await fetch(`${BACKEND_URL}/signup`, {
+                    method: "POST",
+                    body: JSON.stringify(postInputs),
+                    headers: {
+                        'Content-type': 'application/json',
+                    }
+                });
+                const data = await res.json();
+                console.log(data);
+                return data;
+            } catch (error) {
+                console.error(error);
+            }
+        }
+    }
+
     const [postInputs, setPostInputs] = useState<signUpParams>({
         name: "",
         email: "",
@@ -12,20 +33,24 @@ export function Auth({authType} : {type: "signup" | "signin"}){
     return <>
         <div className=" h-screen flex flex-col justify-center">
             <div className="flex justify-center">
-            <div className="flex flex-col justify-center text-center px-9 ">
-                    <div className="text-3xl font-extrabold">Create an account</div>
-                    <div className="flex flex-row gap-1 text-slate-500">
-                        <div className="">Already have an account? </div>
-                        <Link className="underline" to={"/signin"}>Login</Link>
+            <div className="flex flex-col justify-center text-center px-9 md:w-3/4">
+                    <div className="text-3xl font-extrabold">{authType === 'signin'? "Login Now": "Create an account"}</div>
+                    <div className="flex flex-row gap-1 justify-center text-slate-500">
+                        <div className=""> {authType === "signup"? "Already have an account?" : "Create a new account" } </div>
+                        <Link className="underline" to={authType === "signup" ? "/signin" : "/signup"}>{authType === "signup" ? "Login" : "Signup"}</Link>
                     </div>
-                    <div className="mt-5">
-                    <LableInputs lable="Name" placeholder="Enter your Name: " type="text" onChange={(e) => {
-                        setPostInputs({
-                            ...postInputs,
-                            name: e.target.value
-                            
-                        })
-                    }} />
+                    <div className="my-5">
+                        { 
+                        authType === "signup" ?
+
+                            <LableInputs lable="Name" placeholder="Enter your Name: " type="text" onChange={(e) => {
+                                setPostInputs({
+                                    ...postInputs,
+                                    name: e.target.value
+                                    
+                                })
+                            }} /> : ""
+                        }
                     <LableInputs lable="Email" placeholder="example@example.com " type="text" onChange={(e) => {
                         setPostInputs({
                             ...postInputs,
@@ -41,6 +66,10 @@ export function Auth({authType} : {type: "signup" | "signin"}){
                         })
                     }} />
                     </div>
+                    <button type="button" className="text-white w-full font-bold bg-gray-800 hover:bg-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-300 rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-gray-800 dark:hover:bg-gray-700 dark:focus:ring-gray-700 dark:border-gray-700"
+                    onClick={()=>{
+                        dataFetch()
+                    }}>{authType === "signup"? "Signup" : "Signin"}</button>
                 </div>
             </div>
         </div>
@@ -66,4 +95,8 @@ function LableInputs({lable, placeholder, type, onChange}:LabelInputsInterface){
             required />
         </div>
     </>
+}
+
+function datafetch() {
+    throw new Error("Function not implemented.");
 }
