@@ -22,7 +22,7 @@ auth.post('/signup', async (c)=>{
     if(!success){
         c.status(411);
         return c.json({
-            error: "incorrect inputs"
+            msg: "incorrect inputs"
         })
     }
     try {
@@ -41,7 +41,11 @@ auth.post('/signup', async (c)=>{
             })
         }
     } catch(e){
-        return c.status(403);
+        c.status(403)
+        return c.json({
+            error: e,
+            msg: "user already exist"
+        });
     }
 })
 
@@ -55,7 +59,7 @@ auth.post('/signin', async (c)=>{
     if(!success){
         c.status(411);
         return c.json({
-            error: "incorrect inputs"
+            msg: "incorrect inputs"
         })
     }
     try {
