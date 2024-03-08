@@ -1,41 +1,32 @@
 import { ChangeEvent, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { signUpParams } from "@tsahil/common-zod-validation";
 import { BACKEND_URL } from "../config";
 
 export function Auth({ authType }: { authType: "signup" | "signin" }) {
+    const navigate = useNavigate();
 
     async function dataFetch() {
-        if(authType === "signup"){
-            try{
-                const res = await fetch(`${BACKEND_URL}/signup`, {
-                    method: "POST",
-                    body: JSON.stringify(postInputs),
-                    headers: {
-                        'Content-type': 'application/json',
-                    }
-                });
-                const data = await res.json();
-                console.log(data);
-                return data;
-            } catch (error) {
-                console.error(error);
-            }
-        } else {
-            try {
-                const res = await fetch(`${BACKEND_URL}/signin`, {
-                    method: "POST", 
-                    body: JSON.stringify(postInputs),
-                    headers: {
-                        'Content-type': 'application/json',
-                    }
+        try{
+            const res = await fetch(`${BACKEND_URL}/${authType == 'signup'?'signup':'signin'}`, {
+                method: "POST",
+                body: JSON.stringify(postInputs),
+                headers: {
+                    'Content-type': 'application/json',
+                }
             });
             const data = await res.json();
             console.log(data);
-            return data;
-            } catch (error) {
-                console.error(error);
+            if(data.token){
+                const token = data.token;
+                localStorage.setItem("token", token);
+                navigate("/");
+            } else{
+                alert(data.msg);
             }
+        } catch (error) {
+            console.error(error);
+            alert("Error while Signup");
         }
     }
 
