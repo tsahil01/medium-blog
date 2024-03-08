@@ -21,6 +21,21 @@ export function Auth({ authType }: { authType: "signup" | "signin" }) {
             } catch (error) {
                 console.error(error);
             }
+        } else {
+            try {
+                const res = await fetch(`${BACKEND_URL}/signin`, {
+                    method: "POST", 
+                    body: JSON.stringify(postInputs),
+                    headers: {
+                        'Content-type': 'application/json',
+                    }
+            });
+            const data = await res.json();
+            console.log(data);
+            return data;
+            } catch (error) {
+                console.error(error);
+            }
         }
     }
 
@@ -29,7 +44,7 @@ export function Auth({ authType }: { authType: "signup" | "signin" }) {
         email: "",
         password: ""
     })
-    console.log(postInputs);
+    // console.log(postInputs);
     return <>
         <div className=" h-screen flex flex-col justify-center">
             <div className="flex justify-center">
@@ -83,9 +98,7 @@ interface LabelInputsInterface {
     onChange: (e: ChangeEvent<HTMLInputElement>) => void;
 }
 
-
 function LableInputs({lable, placeholder, type, onChange}:LabelInputsInterface){
-
     return <>
         <div className="flex flex-col justify-start mt-4">
             <label className="block mb-2 text-sm font-bold text-gray-900 text-left">{lable}:</label>
@@ -97,6 +110,3 @@ function LableInputs({lable, placeholder, type, onChange}:LabelInputsInterface){
     </>
 }
 
-function datafetch() {
-    throw new Error("Function not implemented.");
-}

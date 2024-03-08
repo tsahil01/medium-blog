@@ -1,5 +1,5 @@
-import { Auth } from "../component/Auth";
-import { Quote } from "../component/Quote";
+import { Auth } from "../components/Auth";
+import { Quote } from "../components/Quote";
 
 export function Signin(){
 
