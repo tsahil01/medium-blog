@@ -1,3 +1,5 @@
+import { Avatar } from "./Avatar";
+
 interface BlogCardProps {
     authorName: string;
     title: string;
@@ -33,15 +35,5 @@ export const BlogCard = ({
             </div>
             <hr/>
         </div>
-    </>
-}
-
-
-function Avatar({name}: {name: string}){
-    return <>    
-    <div className="relative inline-flex items-center justify-center w-6 h-6 overflow-hidden bg-gray-100 rounded-full dark:bg-gray-600">
-        <span className="font-auto text-gray-600 dark:text-gray-300">{`${name[0]}${name.split(" ")[1][0]}`}</span>
-    </div>
-
     </>
 }
