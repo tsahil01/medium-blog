@@ -5,7 +5,7 @@ interface BlogCardProps {
     authorName: string;
     title: string;
     content: string;
-    publishedAt: number | string;
+    publishedAt?: number | string;
     id:  number | string;
 }
 
@@ -13,7 +13,7 @@ export const BlogCard = ({
     authorName,
     title,
     content,
-    publishedAt = "random date",
+    publishedAt = "Just Now",
     id,
 }: BlogCardProps) => {
     return <>
@@ -25,7 +25,7 @@ export const BlogCard = ({
                     {authorName},
                 </div>
                 <div className="my-auto font-light text-sm">
-                    {publishedAt}
+                    {publishedAt}   
                 </div>
             </div>
             <div className="text-2xl font-bold">

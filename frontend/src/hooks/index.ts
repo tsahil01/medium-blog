@@ -32,3 +32,26 @@ export const useBlogs = () =>{
     return {blogs, loading};
 
 }
+
+export const useBlog = (id: string | number) => {
+    console.log("ID ", id);
+    const [loading, setLoading] = useState(true);
+    const [blog, setBlog] = useState(<Blogs>{});
+
+    useEffect(() => {
+        async function getBlog() {
+            const res = await fetch(`${BACKEND_URL}/blog/${id}`, {
+                headers: {
+                    Authorization: `Bearer ${localStorage.getItem("token")}`,
+                }
+            });
+            const data = await res.json();
+            console.log("Data ", data);
+            setBlog(data.post);
+            setLoading(false);
+        }
+        getBlog();
+    }, []);
+
+    return {blog, loading};
+}
