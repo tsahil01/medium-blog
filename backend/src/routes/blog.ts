@@ -20,6 +20,8 @@ blog.use('/*', async (c, next) => {
     try{
         const response = await verify(token, c.env.JWT_SECRET);
         c.set('userId', response.id);
+        console.log("response: ", response);
+        console.log("userId: ", c.get('userId'));
         await next();
     } catch(e){
         c.status(403);
@@ -30,6 +32,7 @@ blog.use('/*', async (c, next) => {
 })
 
 blog.post('/', async (c)=>{
+    console.log("on /api/v1/blog Post Called");
     const prisma = new PrismaClient({
         datasourceUrl: c.env.DATABASE_URL,
     }).$extends(withAccelerate())
@@ -37,6 +40,7 @@ blog.post('/', async (c)=>{
     console.log("userId: ", c.get('userId'))
 
     const body = await c.req.json();
+    console.log("body: ", body);
 
     const { success } = createPostInput.safeParse(body);
     if(!success){
@@ -45,17 +49,24 @@ blog.post('/', async (c)=>{
             error: "incorrect inputs"
         })
     }
-    const post = await prisma.post.create({
-        data: {
-            title: body.title,
-            content: body.content,
-            authorId: userId
-        }
-    });
-    return c.json({
-        id: post.id,
-        msg: "on /api/v1/blog Post"
-    })
+    try{
+        const post = await prisma.post.create({
+            data: {
+                title: body.title,
+                content: body.content,
+                authorId: userId
+            }
+        });
+        return c.json({
+            id: post.id,
+            msg: "on /api/v1/blog Post"
+        })
+    } catch(e){
+        c.status(500);
+        return c.json({
+            msg: e
+        })
+    }
 })
 
 blog.put('/', async (c)=>{
@@ -89,6 +100,30 @@ blog.put('/', async (c)=>{
     })
 })
 
+blog.get('/bulk', async (c)=>{
+    const prisma = new PrismaClient({
+        datasourceUrl: c.env.DATABASE_URL,
+    }).$extends(withAccelerate())
+
+    const posts = await prisma.post.findMany({
+        select: {
+            title: true,
+            content: true,
+            id: true,
+            author: {
+                select: {
+                    name: true
+                }
+            }
+        }
+    });
+    console.log("post: ", posts);
+    return c.json({
+        posts: posts,
+        msg: "on /api/v1/blog/bulk GET",
+    })
+})
+
 blog.get('/:id', async (c)=>{
     const id = await c.req.param('id');
     const postId = id.split(':')[1]; 
@@ -106,5 +141,7 @@ blog.get('/:id', async (c)=>{
         msg: `on /api/v1/blog${id} Get`,
     })
 })
+
+
 
 export default blog
